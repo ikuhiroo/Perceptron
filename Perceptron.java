@@ -36,11 +36,11 @@ public class Perceptron{
     }
 
     //学習
-    public static void update(int epoch){
+    private static void update(int epoch){
         //バッチ処理
         for(int xi = 0; xi < X.length; xi++){
             //誤分類の確認
-            double haserror = eta * (target[xi] - predict(xi));
+            double haserror = eta * (target[xi] - classify(xi));
             if(haserror != 0){
                 //errorの更新
                 error += 1;
@@ -56,7 +56,7 @@ public class Perceptron{
     }
 
     //クラス分類
-    private static int predict(int i){
+    private static int classify(int i){
         //モデル出力値
         double pred = w[0] + (w[1] * X[i]);
         //predに基づくクラス分類
