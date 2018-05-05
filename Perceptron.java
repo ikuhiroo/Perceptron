@@ -13,33 +13,38 @@ public class Perceptron{
     static double w[] = {-7, 2};
 
     public static void main(String[] args){
-        //init
+        for(int epoch = 0; epoch < iter; epoch++){
+            if(epoch==0){
+                String hyparameter = String.format("hyparameter : eta=%.1f, iter=%d, w0=%.1f, w1=%.1f", eta, iter, w[0], w[1]);
+                String init_result = String.format("0epoch : 誤分類数=%d", getErrorCnt(X));
+                System.out.println(hyparameter);
+                System.out.println(init_result);
+            }else{
+                error = 0;
+                train(epoch);
+                if(error == 0){
+                    break;
+                }
+            }
+        }
+    }
+    // 誤分類数の取得
+    private static int getErrorCnt(double X[]){
         for(int xi = 0; xi < X.length; xi++){
-            int haserror = target[xi] - predict(xi);
+            //誤分類の確認
+            double haserror = target[xi] - classify(xi);
             if(haserror != 0){
                error += 1;
             }
         }
-        String hyparameter = String.format("hyparameter : eta=%.1f, iter=%d, w0=%.1f, w1=%.1f", eta, iter, w[0], w[1]);
-        System.out.println(hyparameter);
-        String init_result = String.format("0epoch : 誤分類数=%d", error);
-        System.out.println(init_result);
-
-        //epochを回す
-        for(int epoch = 1; epoch < iter; epoch++){
-            error = 0;
-            update(epoch);
-            if(error == 0){
-                break;
-            }
-        }
+        return error;
     }
 
     //学習
-    private static void update(int epoch){
+    private static void train(int epoch){
         //バッチ処理
         for(int xi = 0; xi < X.length; xi++){
-            //誤分類の確認
+            //誤分類(=wの更新量)の確認
             double haserror = eta * (target[xi] - classify(xi));
             if(haserror != 0){
                 //errorの更新
