@@ -3,19 +3,19 @@ public class Perceptron{
     final static double X[] = {1.2, 0.2, -0.2, -0.5, -1.0, -1.5};
     //正解ラベル
     final static int target[] = {1, 1, 1, 0, 0, 0};
-    //学習率
+    //学習率 @param
     final static double eta = 1.2;
-    //学習繰り返し回数
+    //学習繰り返し回数 @param
     final static int iter = 100;
+    //重みベクトル[w0, w1] @param
+    static double w[] = {-7, 2};
     //error
     static int error = 0;
-    //重みベクトル[w0, w1]
-    static double w[] = {-7, 2};
 
     public static void main(String[] args){
         for(int epoch = 0; epoch < iter; epoch++){
             if(epoch==0){
-                String hyparameter = String.format("hyparameter : eta=%.1f, iter=%d, w0=%.1f, w1=%.1f", eta, iter, w[0], w[1]);
+                String hyparameter = String.format("hyparameter : eta=%.1f, w0=%.1f, w1=%.1f, iter=%d", eta, w[0], w[1], iter);
                 String init_result = String.format("0epoch : 誤分類数=%d", getErrorCnt(X));
                 System.out.println(hyparameter);
                 System.out.println(init_result);
@@ -28,7 +28,7 @@ public class Perceptron{
             }
         }
     }
-    // 誤分類数の取得
+    // 1epoch当たりの誤分類数の取得
     private static int getErrorCnt(double X[]){
         for(int xi = 0; xi < X.length; xi++){
             //誤分類の確認
@@ -61,9 +61,9 @@ public class Perceptron{
     }
 
     //クラス分類
-    private static int classify(int i){
+    private static int classify(int xi){
         //モデル出力値
-        double pred = w[0] + (w[1] * X[i]);
+        double pred = w[0] + (w[1] * X[xi]);
         //predに基づくクラス分類
         if(pred >= 0){
            return 1;
