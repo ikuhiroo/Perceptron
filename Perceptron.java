@@ -3,45 +3,35 @@ public class Perceptron{
     final static double X[] = {1.2, 0.2, -0.2, -0.5, -1.0, -1.5};
     //正解ラベル
     final static int target[] = {1, 1, 1, 0, 0, 0};
-    //学習率 @param
-    final static double eta = 1.2;
+    //学習率 @param[1.2, 3.6, 2.0]
+    final static double eta = 2.0;
     //学習繰り返し回数 @param
     final static int iter = 100;
-    //重みベクトル[w0, w1] @param
-    static double w[] = {-7, 2};
+    //重みベクトル[w0, w1] @param[{-7, 2}, {-7, 2}, {11, 5}]
+    static double w[] = {11, 5};
     //error
     static int error = 0;
 
     public static void main(String[] args){
         for(int epoch = 0; epoch < iter; epoch++){
             if(epoch==0){
-                String hyparameter = String.format("hyparameter : eta=%.1f, w0=%.1f, w1=%.1f, iter=%d", eta, w[0], w[1], iter);
-                String init_result = String.format("0epoch : 誤分類数=%d", getErrorCnt(X));
-                System.out.println(hyparameter);
-                System.out.println(init_result);
+                System.out.println(String.format("hyparameter : eta=%.1f, iter=%d", eta, iter));
+                System.out.println(String.format("%depoch : ", epoch));
+                System.out.println(String.format("w0=%.1f, w1=%.1f", w[0], w[1]));
             }else{
-                error = 0;
+                System.out.println(String.format("%depoch : ", epoch));
                 train(epoch);
                 if(error == 0){
+                    System.out.println("誤分類なし");
                     break;
                 }
             }
         }
     }
-    // 1epoch当たりの誤分類数の取得
-    private static int getErrorCnt(double X[]){
-        for(int xi = 0; xi < X.length; xi++){
-            //誤分類の確認
-            double haserror = target[xi] - classify(xi);
-            if(haserror != 0){
-               error += 1;
-            }
-        }
-        return error;
-    }
 
     //学習
     private static void train(int epoch){
+        error = 0;
         //バッチ処理
         for(int xi = 0; xi < X.length; xi++){
             //誤分類(=wの更新量)の確認
@@ -52,12 +42,9 @@ public class Perceptron{
                 //wの更新
                 w[0] = w[0] + haserror;
                 w[1] = w[1] + (haserror * X[xi]);
-                String result = String.format("w0=%.1f, w1=%.1f", w[0], w[1]);
-                System.out.println(result);
+                System.out.println(String.format("w0=%.1f, w1=%.1f", w[0], w[1]));
             }
         }
-        String result = String.format("%depoch : 誤分類数=%d", epoch, error);
-        System.out.println(result);
     }
 
     //クラス分類
