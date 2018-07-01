@@ -32,7 +32,7 @@ if(pred >= 0){
     return 0; 
 }
 ```    
-### 損失関数の定義と学習方法  
+### 損失関数の定義と重みの更新手続き    
 ```
 // 誤分類数
 double haserror = eta * (target[xi] - classify(xi));                
@@ -40,6 +40,7 @@ double haserror = eta * (target[xi] - classify(xi));
 w[0] = w[0] + haserror;
 w[1] = w[1] + (haserror * X[xi]);
 ````
-    
-
-   
+## 結果  
+重み空間において，重みが解領域に収束する様子を描画した．  
+学習率が大きい場合，重み修正量が大きいため，解領域内になかなか収束しない．  
+<img src="https://github.com/ikuhiroo/Perceptron/blob/master/result.png">  
